@@ -120,7 +120,7 @@
 
     // The menu is a small-screen layer — never leave it stuck open on resize.
     // Must match the nav breakpoint in style.css.
-    var desktop = window.matchMedia('(min-width: 901px)');
+    var desktop = window.matchMedia('(min-width: 961px)');
     var onDesktopChange = function (e) { if (e.matches) closeNav(); };
     if (desktop.addEventListener) desktop.addEventListener('change', onDesktopChange);
     else if (desktop.addListener) desktop.addListener(onDesktopChange);
