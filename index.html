@@ -5,28 +5,66 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Health Houze — Diet Plans Built Around Your Life</title>
 <meta name="description" content="1:1 dietician consultations, customised diet plans, workout videos and 24/7 WhatsApp support. Democratizing fitness — one real plan at a time.">
-<link rel="icon" type="image/jpeg" href="assets/images/logo.jpg">
+<link rel="canonical" href="https://healthhouze.com/">
+<meta name="author" content="Health Houze">
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#F7FAF6" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0E1712" media="(prefers-color-scheme: dark)">
+
+<!-- Social sharing -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Health Houze">
+<meta property="og:title" content="Health Houze — Diet Plans Built Around Your Life">
+<meta property="og:description" content="1:1 dietician consultations, customised diet plans, workout videos and 24/7 WhatsApp support. Democratizing fitness — one real plan at a time.">
+<meta property="og:url" content="https://healthhouze.com/">
+<meta property="og:image" content="https://healthhouze.com/assets/images/dietician.jpg">
+<meta property="og:image:alt" content="Health Houze dietician reviewing a personalised nutrition plan">
+<meta property="og:locale" content="en_IN">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Health Houze — Diet Plans Built Around Your Life">
+<meta name="twitter:description" content="1:1 dietician consultations, customised diet plans, workout videos and 24/7 WhatsApp support.">
+<meta name="twitter:image" content="https://healthhouze.com/assets/images/dietician.jpg">
+
+<link rel="icon" type="image/png" href="assets/images/favicon.png">
+<link rel="apple-touch-icon" href="assets/images/apple-touch-icon.png">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Work+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 
 <link rel="stylesheet" href="style.css">
-<noscript><style>.reveal{opacity:1!important;transform:none!important;}</style></noscript>
+<noscript><style>.reveal{opacity:1!important;transform:none!important;}.faq-a{grid-template-rows:1fr!important;}</style></noscript>
+
+<!-- Apply the saved theme before first paint so dark-mode visitors
+     never see a flash of the light theme. -->
+<script>
+(function () {
+  try {
+    var stored = localStorage.getItem('hh-theme');
+    var dark = stored ? stored === 'dark'
+                      : window.matchMedia('(prefers-color-scheme: dark)').matches;
+    document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+  } catch (e) {
+    document.documentElement.setAttribute('data-theme', 'light');
+  }
+})();
+</script>
 </head>
 <body>
+
+<a class="skip-link" href="#main">Skip to content</a>
 
 <!-- ========== NAV ========== -->
 <header class="nav" id="top">
   <div class="nav-inner">
-    <a href="#top" class="nav-brand">
-      <img src="assets/images/logo.jpg" alt="Health Houze logo" class="nav-logo">
+    <a href="#top" class="nav-brand" aria-label="Health Houze — home">
+      <img src="assets/images/logo-mark.png" alt="" width="40" height="40" class="nav-logo">
       <span class="nav-brand-text">
         <span class="nav-brand-name">Health Houze</span>
         <span class="nav-brand-tag">Democratizing Fitness</span>
       </span>
     </a>
-    <nav class="nav-links" id="navLinks">
+    <nav class="nav-links" id="navLinks" aria-label="Primary">
       <a href="#approach">Approach</a>
       <a href="#services">Services</a>
       <a href="#conditions">Who We Help</a>
@@ -34,16 +72,18 @@
       <a href="#pricing">Pricing</a>
       <a href="#faqs">FAQs</a>
     </nav>
-    <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+    <button class="theme-toggle" id="themeToggle" type="button" aria-label="Switch to dark mode" aria-pressed="false">
       <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.4M12 19.1v2.4M4.9 4.9l1.7 1.7M17.4 17.4l1.7 1.7M2.5 12h2.4M19.1 12h2.4M4.9 19.1l1.7-1.7M17.4 6.6l1.7-1.7" stroke-linecap="round"/></svg>
       <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 14.8A8.5 8.5 0 119.2 3.5a7 7 0 0011.3 11.3z"/></svg>
     </button>
     <a href="https://wa.me/917276188690?text=Hi%20Health%20Houze%21%20I%27d%20like%20to%20know%20more%20about%20your%20diet%20plans." target="_blank" rel="noopener" class="btn btn-primary btn-small nav-cta"><svg class="btn-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3C6.99 3 2.9 6.8 2.9 11.5c0 2.42 1.08 4.6 2.83 6.14-.1 1.35-.5 2.62-1.18 3.73a.4.4 0 00.46.58c1.7-.42 3.24-1.2 4.5-2.24 1.13.36 2.34.55 3.59.55 5.01 0 9.1-3.8 9.1-8.5S17.11 3 12.1 3H12z"/></svg>Message Us</a>
-    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+    <button class="nav-toggle" id="navToggle" type="button" aria-label="Menu" aria-expanded="false" aria-controls="navLinks">
       <span></span><span></span><span></span>
     </button>
   </div>
 </header>
+
+<main id="main">
 
 <!-- ========== HERO ========== -->
 <section class="hero">
@@ -57,33 +97,33 @@
         <a href="#pricing" class="btn btn-ghost">See pricing</a>
       </div>
       <ul class="hero-trust">
-        <li><svg class="heart-ico" viewBox="0 0 24 24"><path d="M12 20.5s-7-4.35-9.6-8.6C.6 8.6 2 5 5.4 4.3 7.7 3.8 9.9 5 12 7.4 14.1 5 16.3 3.8 18.6 4.3 22 5 23.4 8.6 21.6 11.9 19 16.15 12 20.5 12 20.5Z"/></svg>100% natural, no powders or supplements</li>
-        <li><svg class="heart-ico" viewBox="0 0 24 24"><path d="M12 20.5s-7-4.35-9.6-8.6C.6 8.6 2 5 5.4 4.3 7.7 3.8 9.9 5 12 7.4 14.1 5 16.3 3.8 18.6 4.3 22 5 23.4 8.6 21.6 11.9 19 16.15 12 20.5 12 20.5Z"/></svg>Plans built for Indian kitchens, any city</li>
-        <li><svg class="heart-ico" viewBox="0 0 24 24"><path d="M12 20.5s-7-4.35-9.6-8.6C.6 8.6 2 5 5.4 4.3 7.7 3.8 9.9 5 12 7.4 14.1 5 16.3 3.8 18.6 4.3 22 5 23.4 8.6 21.6 11.9 19 16.15 12 20.5 12 20.5Z"/></svg>2–6 kg realistic monthly progress*</li>
+        <li><svg class="heart-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5s-7-4.35-9.6-8.6C.6 8.6 2 5 5.4 4.3 7.7 3.8 9.9 5 12 7.4 14.1 5 16.3 3.8 18.6 4.3 22 5 23.4 8.6 21.6 11.9 19 16.15 12 20.5 12 20.5Z"/></svg>100% natural, no powders or supplements</li>
+        <li><svg class="heart-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5s-7-4.35-9.6-8.6C.6 8.6 2 5 5.4 4.3 7.7 3.8 9.9 5 12 7.4 14.1 5 16.3 3.8 18.6 4.3 22 5 23.4 8.6 21.6 11.9 19 16.15 12 20.5 12 20.5Z"/></svg>Plans built for Indian kitchens, any city</li>
+        <li><svg class="heart-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5s-7-4.35-9.6-8.6C.6 8.6 2 5 5.4 4.3 7.7 3.8 9.9 5 12 7.4 14.1 5 16.3 3.8 18.6 4.3 22 5 23.4 8.6 21.6 11.9 19 16.15 12 20.5 12 20.5Z"/></svg>2–6 kg realistic monthly progress*</li>
       </ul>
     </div>
     <div class="hero-visual">
-      <div class="hero-blob"></div>
-      <img src="assets/images/dietician.jpg" alt="Health Houze dietician reviewing a personalised nutrition plan" class="hero-photo">
+      <div class="hero-blob" aria-hidden="true"></div>
+      <img src="assets/images/dietician.jpg" alt="Health Houze dietician reviewing a personalised nutrition plan" class="hero-photo" width="1000" height="753" fetchpriority="high" decoding="async">
     </div>
   </div>
 </section>
 
 <!-- ========== TRUST STRIP ========== -->
-<section class="trust-strip">
+<section class="trust-strip" aria-label="Why clients trust Health Houze">
   <div class="section-inner trust-grid">
     <div class="trust-item reveal">
-      <svg class="trust-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 14c0-6 4-11 11-11 1 4-1 7-3 9 3 0 5 1 6 3-2 4-6 6-11 6-4 0-6-2-6-4 0-2 1-3 3-3z"/></svg>
+      <span class="trust-icon-wrap"><svg class="trust-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 14c0-6 4-11 11-11 1 4-1 7-3 9 3 0 5 1 6 3-2 4-6 6-11 6-4 0-6-2-6-4 0-2 1-3 3-3z"/></svg></span>
       <h3>100% Natural</h3>
       <p>No powders, medicines or supplements — just food, planned right.</p>
     </div>
     <div class="trust-item reveal">
-      <svg class="trust-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5A2.5 2.5 0 016.5 3h11A2.5 2.5 0 0120 5.5v8A2.5 2.5 0 0117.5 16H10l-4.5 4v-4H6.5A2.5 2.5 0 014 13.5v-8z"/></svg>
+      <span class="trust-icon-wrap"><svg class="trust-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5A2.5 2.5 0 016.5 3h11A2.5 2.5 0 0120 5.5v8A2.5 2.5 0 0117.5 16H10l-4.5 4v-4H6.5A2.5 2.5 0 014 13.5v-8z"/></svg></span>
       <h3>A Real Person, Not a Bot</h3>
       <p>Every WhatsApp message gets a reply from an actual dietician.</p>
     </div>
     <div class="trust-item reveal">
-      <svg class="trust-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l7 3.2v6c0 5-3 8.6-7 10.8-4-2.2-7-5.8-7-10.8v-6L12 2z"/><path d="M8.7 12.2l2.2 2.2 4.4-4.6" stroke="var(--surface)" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span class="trust-icon-wrap"><svg class="trust-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l7.5 3.3v5.8c0 4.9-3.1 8.6-7.5 10.4-4.4-1.8-7.5-5.5-7.5-10.4V5.8L12 2.5z"/><path d="M8.6 12.1l2.3 2.3 4.5-4.7"/></svg></span>
       <h3>Honest, Not Hype</h3>
       <p>No miracle promises — just realistic, sustainable progress.</p>
     </div>
@@ -91,16 +131,16 @@
 </section>
 
 <!-- ========== APPROACH / PHILOSOPHY ========== -->
-<section class="approach" id="approach">
+<section class="approach" id="approach" aria-labelledby="approach-title">
   <div class="section-inner">
     <p class="eyebrow center">The Health Houze Approach</p>
-    <h2 class="section-title center reveal">Two things drive every plan we write.</h2>
+    <h2 class="section-title center reveal" id="approach-title">Two things drive every plan we write.</h2>
     <div class="approach-grid">
       <article class="approach-card reveal">
         <span class="approach-num">Diet</span>
         <p>Diets are planned around flexibility, ease, variety and simplicity. We believe in giving permanent results — and that needs intervention at the lifestyle level, not a crash chart.</p>
       </article>
-      <article class="approach-card approach-card-alt reveal">
+      <article class="approach-card reveal">
         <span class="approach-num">Workouts</span>
         <p>Designed around smart exercising, time-saving and doability — effective and demonstrative, challenging enough to move the needle, simple enough to actually stick to.</p>
       </article>
@@ -109,10 +149,10 @@
 </section>
 
 <!-- ========== SERVICES ========== -->
-<section class="services" id="services">
+<section class="services" id="services" aria-labelledby="services-title">
   <div class="section-inner">
     <p class="eyebrow center">What's Included</p>
-    <h2 class="section-title center reveal">Every plan comes with the full system.</h2>
+    <h2 class="section-title center reveal" id="services-title">Every plan comes with the full system.</h2>
     <p class="section-sub center">Not just a PDF you never look at again.</p>
 
     <div class="services-grid">
@@ -146,51 +186,51 @@
 </section>
 
 <!-- ========== WHO WE HELP ========== -->
-<section class="conditions" id="conditions">
+<section class="conditions" id="conditions" aria-labelledby="conditions-title">
   <div class="section-inner">
     <p class="eyebrow center">Built For What You're Actually Dealing With</p>
-    <h2 class="section-title center reveal">Most diet charts assume a textbook body. We design around the real one.</h2>
-    <div class="chip-row reveal">
-      <span class="chip">PCOS / PCOD</span>
-      <span class="chip">Thyroid</span>
-      <span class="chip">Varicose Veins</span>
-      <span class="chip">Fatty Liver</span>
-      <span class="chip">Post Gall Bladder Removal</span>
-      <span class="chip">IBS</span>
-      <span class="chip">High Uric Acid</span>
-      <span class="chip">High Cholesterol</span>
-      <span class="chip">Hypertension</span>
-    </div>
+    <h2 class="section-title center reveal" id="conditions-title">Most diet charts assume a textbook body. We design around the real one.</h2>
+    <ul class="chip-row reveal">
+      <li class="chip">PCOS / PCOD</li>
+      <li class="chip">Thyroid</li>
+      <li class="chip">Varicose Veins</li>
+      <li class="chip">Fatty Liver</li>
+      <li class="chip">Post Gall Bladder Removal</li>
+      <li class="chip">IBS</li>
+      <li class="chip">High Uric Acid</li>
+      <li class="chip">High Cholesterol</li>
+      <li class="chip">Hypertension</li>
+    </ul>
     <p class="conditions-note">Managing something else? Message us on WhatsApp — most conditions can be worked with alongside your doctor's care.</p>
   </div>
 </section>
 
 <!-- ========== REAL PLATES GALLERY ========== -->
-<section class="plates" id="plates">
+<section class="plates" id="plates" aria-labelledby="plates-title">
   <div class="section-inner">
     <p class="eyebrow center">From Our Clients' Kitchens</p>
-    <h2 class="section-title center reveal">Real meals from real diet plans.</h2>
+    <h2 class="section-title center reveal" id="plates-title">Real meals from real diet plans.</h2>
     <p class="section-sub center">Proof that "diet food" doesn't have to mean bland.</p>
 
     <div class="plates-grid">
-      <div class="plate reveal"><img src="assets/images/meal-1.jpg" alt="Paratha with sautéed sabzi and methi dal, plated for a client"></div>
-      <div class="plate reveal"><img src="assets/images/meal-2.jpg" alt="Roti with grilled chicken, roasted vegetables and salad"></div>
-      <div class="plate reveal"><img src="assets/images/meal-3.jpg" alt="Paneer, sautéed potato, cucumber and tomato plate"></div>
-      <div class="plate reveal"><img src="assets/images/meal-4.jpg" alt="Turmeric rice with boiled eggs and salad"></div>
-      <div class="plate reveal"><img src="assets/images/meal-5.jpg" alt="Dal, paneer bhurji, saag and roti thali"></div>
-      <div class="plate reveal"><img src="assets/images/meal-6.jpg" alt="Mixed vegetable curry with roti and raita"></div>
-      <div class="plate reveal"><img src="assets/images/meal-7.jpg" alt="Pomegranate, cucumber, carrot and grape fruit bowl"></div>
-      <div class="plate reveal"><img src="assets/images/meal-8.jpg" alt="Dal, soya chunks, grilled chicken and vegetables"></div>
-      <div class="plate reveal"><img src="assets/images/meal-9.jpg" alt="Fresh papaya and muskmelon fruit bowl"></div>
+      <div class="plate reveal"><img src="assets/images/meal-1.jpg" alt="Paratha with sautéed sabzi and methi dal, plated for a client" width="700" height="700" loading="lazy" decoding="async"></div>
+      <div class="plate reveal"><img src="assets/images/meal-2.jpg" alt="Roti with grilled chicken, roasted vegetables and salad" width="700" height="700" loading="lazy" decoding="async"></div>
+      <div class="plate reveal"><img src="assets/images/meal-3.jpg" alt="Paneer, sautéed potato, cucumber and tomato plate" width="700" height="700" loading="lazy" decoding="async"></div>
+      <div class="plate reveal"><img src="assets/images/meal-4.jpg" alt="Turmeric rice with boiled eggs and salad" width="700" height="700" loading="lazy" decoding="async"></div>
+      <div class="plate reveal"><img src="assets/images/meal-5.jpg" alt="Dal, paneer bhurji, saag and roti thali" width="700" height="700" loading="lazy" decoding="async"></div>
+      <div class="plate reveal"><img src="assets/images/meal-6.jpg" alt="Mixed vegetable curry with roti and raita" width="700" height="700" loading="lazy" decoding="async"></div>
+      <div class="plate reveal"><img src="assets/images/meal-7.jpg" alt="Pomegranate, cucumber, carrot and grape fruit bowl" width="700" height="700" loading="lazy" decoding="async"></div>
+      <div class="plate reveal"><img src="assets/images/meal-8.jpg" alt="Dal, soya chunks, grilled chicken and vegetables" width="700" height="700" loading="lazy" decoding="async"></div>
+      <div class="plate reveal"><img src="assets/images/meal-9.jpg" alt="Fresh papaya and muskmelon fruit bowl" width="700" height="700" loading="lazy" decoding="async"></div>
     </div>
   </div>
 </section>
 
 <!-- ========== PRICING ========== -->
-<section class="pricing" id="pricing">
+<section class="pricing" id="pricing" aria-labelledby="pricing-title">
   <div class="section-inner">
     <p class="eyebrow center">Simple Pricing, No Surprises</p>
-    <h2 class="section-title center reveal">One payment. Full support included.</h2>
+    <h2 class="section-title center reveal" id="pricing-title">One payment. Full support included.</h2>
     <p class="section-sub center">Every plan below includes all five services — consultation, custom diet, workouts, WhatsApp support and recipes.</p>
 
     <div class="pricing-grid">
@@ -198,7 +238,7 @@
         <h3>3 Months</h3>
         <p class="price-desc">Ideal for first-time structured dieting.</p>
         <div class="price-row">
-          <span class="price-old">₹10,000</span>
+          <span class="price-old"><span class="sr-only">Regular price </span>₹10,000</span>
           <span class="price-new">₹7,500</span>
         </div>
         <span class="price-save">You save ₹2,500</span>
@@ -209,7 +249,7 @@
           <li>24/7 WhatsApp support</li>
           <li>Recipe videos</li>
         </ul>
-        <a href="https://wa.me/917276188690?text=Hi%20Health%20Houze%2C%20I%27m%20interested%20in%20the%203-month%20plan%20(Rs%207500)." target="_blank" rel="noopener" class="btn btn-ghost btn-full"><svg class="btn-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3C6.99 3 2.9 6.8 2.9 11.5c0 2.42 1.08 4.6 2.83 6.14-.1 1.35-.5 2.62-1.18 3.73a.4.4 0 00.46.58c1.7-.42 3.24-1.2 4.5-2.24 1.13.36 2.34.55 3.59.55 5.01 0 9.1-3.8 9.1-8.5S17.11 3 12.1 3H12z"/></svg>Start on WhatsApp</a>
+        <a href="https://wa.me/917276188690?text=Hi%20Health%20Houze%2C%20I%27m%20interested%20in%20the%203-month%20plan%20(Rs%207500)." target="_blank" rel="noopener" class="btn btn-primary btn-full" aria-label="Start the 3 month plan on WhatsApp"><svg class="btn-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3C6.99 3 2.9 6.8 2.9 11.5c0 2.42 1.08 4.6 2.83 6.14-.1 1.35-.5 2.62-1.18 3.73a.4.4 0 00.46.58c1.7-.42 3.24-1.2 4.5-2.24 1.13.36 2.34.55 3.59.55 5.01 0 9.1-3.8 9.1-8.5S17.11 3 12.1 3H12z"/></svg>Start on WhatsApp</a>
       </article>
 
       <article class="price-card price-card-featured reveal">
@@ -217,7 +257,7 @@
         <h3>6 Months</h3>
         <p class="price-desc">For lasting, lifestyle-level change.</p>
         <div class="price-row">
-          <span class="price-old">₹18,000</span>
+          <span class="price-old"><span class="sr-only">Regular price </span>₹18,000</span>
           <span class="price-new">₹13,000</span>
         </div>
         <span class="price-save">You save ₹5,000</span>
@@ -228,7 +268,7 @@
           <li>24/7 WhatsApp support</li>
           <li>Recipe videos</li>
         </ul>
-        <a href="https://wa.me/917276188690?text=Hi%20Health%20Houze%2C%20I%27m%20interested%20in%20the%206-month%20plan%20(Rs%2013000)." target="_blank" rel="noopener" class="btn btn-primary btn-full"><svg class="btn-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3C6.99 3 2.9 6.8 2.9 11.5c0 2.42 1.08 4.6 2.83 6.14-.1 1.35-.5 2.62-1.18 3.73a.4.4 0 00.46.58c1.7-.42 3.24-1.2 4.5-2.24 1.13.36 2.34.55 3.59.55 5.01 0 9.1-3.8 9.1-8.5S17.11 3 12.1 3H12z"/></svg>Start on WhatsApp</a>
+        <a href="https://wa.me/917276188690?text=Hi%20Health%20Houze%2C%20I%27m%20interested%20in%20the%206-month%20plan%20(Rs%2013000)." target="_blank" rel="noopener" class="btn btn-primary btn-full" aria-label="Start the 6 month plan on WhatsApp"><svg class="btn-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3C6.99 3 2.9 6.8 2.9 11.5c0 2.42 1.08 4.6 2.83 6.14-.1 1.35-.5 2.62-1.18 3.73a.4.4 0 00.46.58c1.7-.42 3.24-1.2 4.5-2.24 1.13.36 2.34.55 3.59.55 5.01 0 9.1-3.8 9.1-8.5S17.11 3 12.1 3H12z"/></svg>Start on WhatsApp</a>
       </article>
     </div>
     <p class="pricing-footnote">*Results depend on metabolic rate, body type, medical condition and how closely the plan is followed. Typical results are 2–6 kg per month. No guarantees are made, and there is no refund policy once a plan is issued.</p>
@@ -238,66 +278,66 @@
 <!-- ========== TESTIMONIALS SECTION — TO BE ADDED LATER (before/after photos, success stories) ========== -->
 
 <!-- ========== FAQS ========== -->
-<section class="faqs" id="faqs">
+<section class="faqs" id="faqs" aria-labelledby="faqs-title">
   <div class="section-inner">
     <p class="eyebrow center">Questions, Answered</p>
-    <h2 class="section-title center reveal">FAQs</h2>
+    <h2 class="section-title center reveal" id="faqs-title">FAQs</h2>
 
     <div class="faq-list" id="faqList">
 
       <div class="faq-item">
-        <button class="faq-q">How much weight will I be able to lose?<span class="faq-icon">+</span></button>
-        <div class="faq-a"><p>How much weight a person loses totally depends on their metabolic rate, body type, medical condition and how well they follow the plan. Typically a person loses 2–6 kg per month, but results differ from person to person.</p></div>
+        <h3><button class="faq-q" type="button" id="faq-q1" aria-expanded="false" aria-controls="faq-a1">How much weight will I be able to lose?<span class="faq-icon" aria-hidden="true"></span></button></h3>
+        <div class="faq-a" id="faq-a1" role="region" aria-labelledby="faq-q1"><div><p>How much weight a person loses totally depends on their metabolic rate, body type, medical condition and how well they follow the plan. Typically a person loses 2–6 kg per month, but results differ from person to person.</p></div></div>
       </div>
 
       <div class="faq-item">
-        <button class="faq-q">Do you give any medicines, powders or supplements for weight loss?<span class="faq-icon">+</span></button>
-        <div class="faq-a"><p>We believe in natural weight loss, so we do not give any powders, medicines or supplements. We provide healthy diet plans for weight loss.</p></div>
+        <h3><button class="faq-q" type="button" id="faq-q2" aria-expanded="false" aria-controls="faq-a2">Do you give any medicines, powders or supplements for weight loss?<span class="faq-icon" aria-hidden="true"></span></button></h3>
+        <div class="faq-a" id="faq-a2" role="region" aria-labelledby="faq-q2"><div><p>We believe in natural weight loss, so we do not give any powders, medicines or supplements. We provide healthy diet plans for weight loss.</p></div></div>
       </div>
 
       <div class="faq-item">
-        <button class="faq-q">Do you give any kind of guarantee for weight loss?<span class="faq-icon">+</span></button>
-        <div class="faq-a"><p>No. Since our bodies are dynamic in nature, results differ from person to person.</p></div>
+        <h3><button class="faq-q" type="button" id="faq-q3" aria-expanded="false" aria-controls="faq-a3">Do you give any kind of guarantee for weight loss?<span class="faq-icon" aria-hidden="true"></span></button></h3>
+        <div class="faq-a" id="faq-a3" role="region" aria-labelledby="faq-q3"><div><p>No. Since our bodies are dynamic in nature, results differ from person to person.</p></div></div>
       </div>
 
       <div class="faq-item">
-        <button class="faq-q">I have PCOD, thyroid issues, diabetes and other medical conditions. Will that be cured with this diet?<span class="faq-icon">+</span></button>
-        <div class="faq-a"><p>Your medical condition requires proper medical assistance, alongside a proper diet which plays a supplementary role. Your condition cannot be completely cured, but it can be managed by diet and will also help prevent further disease by keeping you healthy.</p></div>
+        <h3><button class="faq-q" type="button" id="faq-q4" aria-expanded="false" aria-controls="faq-a4">I have PCOD, thyroid issues, diabetes and other medical conditions. Will that be cured with this diet?<span class="faq-icon" aria-hidden="true"></span></button></h3>
+        <div class="faq-a" id="faq-a4" role="region" aria-labelledby="faq-q4"><div><p>Your medical condition requires proper medical assistance, alongside a proper diet which plays a supplementary role. Your condition cannot be completely cured, but it can be managed by diet and will also help prevent further disease by keeping you healthy.</p></div></div>
       </div>
 
       <div class="faq-item">
-        <button class="faq-q">What if I don't lose any weight?<span class="faq-icon">+</span></button>
-        <div class="faq-a"><p>We try our best to give every client the best results, and this is a very rare situation. We have a good success rate. Please note that we do not have a refund policy.</p></div>
+        <h3><button class="faq-q" type="button" id="faq-q5" aria-expanded="false" aria-controls="faq-a5">What if I don't lose any weight?<span class="faq-icon" aria-hidden="true"></span></button></h3>
+        <div class="faq-a" id="faq-a5" role="region" aria-labelledby="faq-q5"><div><p>We try our best to give every client the best results, and this is a very rare situation. We have a good success rate. Please note that we do not have a refund policy.</p></div></div>
       </div>
 
       <div class="faq-item">
-        <button class="faq-q">How are you different from other nutritionists?<span class="faq-icon">+</span></button>
-        <div class="faq-a"><p>Most nutritionists hand you a "diet chart" and tell you to come back a week later. We cover nutrition, exercise and habit formation together — an approach built for long-term results, not just a chart.</p></div>
+        <h3><button class="faq-q" type="button" id="faq-q6" aria-expanded="false" aria-controls="faq-a6">How are you different from other nutritionists?<span class="faq-icon" aria-hidden="true"></span></button></h3>
+        <div class="faq-a" id="faq-a6" role="region" aria-labelledby="faq-q6"><div><p>Most nutritionists hand you a "diet chart" and tell you to come back a week later. We cover nutrition, exercise and habit formation together — an approach built for long-term results, not just a chart.</p></div></div>
       </div>
 
       <div class="faq-item">
-        <button class="faq-q">Is food mentioned in the diet plan easily available in small towns?<span class="faq-icon">+</span></button>
-        <div class="faq-a"><p>Yes. We design your plan according to your location, keeping in mind the food items that are within your reach.</p></div>
+        <h3><button class="faq-q" type="button" id="faq-q7" aria-expanded="false" aria-controls="faq-a7">Is food mentioned in the diet plan easily available in small towns?<span class="faq-icon" aria-hidden="true"></span></button></h3>
+        <div class="faq-a" id="faq-a7" role="region" aria-labelledby="faq-q7"><div><p>Yes. We design your plan according to your location, keeping in mind the food items that are within your reach.</p></div></div>
       </div>
 
       <div class="faq-item">
-        <button class="faq-q">Will I have to quit white rice and roti?<span class="faq-icon">+</span></button>
-        <div class="faq-a"><p>No. We design diet plans in a realistic way and make sure to include your local staple food. You do not need to give up your favourite food.</p></div>
+        <h3><button class="faq-q" type="button" id="faq-q8" aria-expanded="false" aria-controls="faq-a8">Will I have to quit white rice and roti?<span class="faq-icon" aria-hidden="true"></span></button></h3>
+        <div class="faq-a" id="faq-a8" role="region" aria-labelledby="faq-q8"><div><p>No. We design diet plans in a realistic way and make sure to include your local staple food. You do not need to give up your favourite food.</p></div></div>
       </div>
 
       <div class="faq-item">
-        <button class="faq-q">Do you have a separate plan for South Indians according to their food habits?<span class="faq-icon">+</span></button>
-        <div class="faq-a"><p>Yes! We design a personalised diet plan for every client from every corner of India — Southern, Northern or Central.</p></div>
+        <h3><button class="faq-q" type="button" id="faq-q9" aria-expanded="false" aria-controls="faq-a9">Do you have a separate plan for South Indians according to their food habits?<span class="faq-icon" aria-hidden="true"></span></button></h3>
+        <div class="faq-a" id="faq-a9" role="region" aria-labelledby="faq-q9"><div><p>Yes! We design a personalised diet plan for every client from every corner of India — Southern, Northern or Central.</p></div></div>
       </div>
 
       <div class="faq-item">
-        <button class="faq-q">Do I have to go to the gym?<span class="faq-icon">+</span></button>
-        <div class="faq-a"><p>No. We generally suggest exercises like brisk walking, yoga and HIIT (both cardio and strength). These can be performed at home and don't need any equipment.</p></div>
+        <h3><button class="faq-q" type="button" id="faq-q10" aria-expanded="false" aria-controls="faq-a10">Do I have to go to the gym?<span class="faq-icon" aria-hidden="true"></span></button></h3>
+        <div class="faq-a" id="faq-a10" role="region" aria-labelledby="faq-q10"><div><p>No. We generally suggest exercises like brisk walking, yoga and HIIT (both cardio and strength). These can be performed at home and don't need any equipment.</p></div></div>
       </div>
 
       <div class="faq-item">
-        <button class="faq-q">How often is the diet plan changed?<span class="faq-icon">+</span></button>
-        <div class="faq-a"><p>We keep updating the diet plan from time to time according to your progress — sometimes in one week, sometimes in three. You do not have to follow the same plan for 3 or 6 months straight.</p></div>
+        <h3><button class="faq-q" type="button" id="faq-q11" aria-expanded="false" aria-controls="faq-a11">How often is the diet plan changed?<span class="faq-icon" aria-hidden="true"></span></button></h3>
+        <div class="faq-a" id="faq-a11" role="region" aria-labelledby="faq-q11"><div><p>We keep updating the diet plan from time to time according to your progress — sometimes in one week, sometimes in three. You do not have to follow the same plan for 3 or 6 months straight.</p></div></div>
       </div>
 
     </div>
@@ -305,22 +345,26 @@
 </section>
 
 <!-- ========== FINAL CTA ========== -->
-<section class="final-cta">
-  <div class="section-inner final-cta-inner">
-    <h2>Ready to stop guessing and start a plan built for you?</h2>
-    <p>Message us on WhatsApp — most conversations start with just a few questions about your routine.</p>
-    <a href="https://wa.me/917276188690?text=Hi%20Health%20Houze%2C%20I%27d%20like%20to%20start%20my%20diet%20plan%20journey%21" target="_blank" rel="noopener" class="btn btn-primary"><svg class="btn-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3C6.99 3 2.9 6.8 2.9 11.5c0 2.42 1.08 4.6 2.83 6.14-.1 1.35-.5 2.62-1.18 3.73a.4.4 0 00.46.58c1.7-.42 3.24-1.2 4.5-2.24 1.13.36 2.34.55 3.59.55 5.01 0 9.1-3.8 9.1-8.5S17.11 3 12.1 3H12z"/></svg>Chat on WhatsApp</a>
+<section class="final-cta" aria-labelledby="final-cta-title">
+  <div class="section-inner">
+    <div class="final-cta-inner">
+      <h2 id="final-cta-title">Ready to stop guessing and start a plan built for you?</h2>
+      <p>Message us on WhatsApp — most conversations start with just a few questions about your routine.</p>
+      <a href="https://wa.me/917276188690?text=Hi%20Health%20Houze%2C%20I%27d%20like%20to%20start%20my%20diet%20plan%20journey%21" target="_blank" rel="noopener" class="btn btn-primary"><svg class="btn-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3C6.99 3 2.9 6.8 2.9 11.5c0 2.42 1.08 4.6 2.83 6.14-.1 1.35-.5 2.62-1.18 3.73a.4.4 0 00.46.58c1.7-.42 3.24-1.2 4.5-2.24 1.13.36 2.34.55 3.59.55 5.01 0 9.1-3.8 9.1-8.5S17.11 3 12.1 3H12z"/></svg>Chat on WhatsApp</a>
+    </div>
   </div>
 </section>
+
+</main>
 
 <!-- ========== FOOTER ========== -->
 <footer class="footer">
   <div class="section-inner footer-inner">
     <div class="footer-brand">
-      <img src="assets/images/logo.jpg" alt="Health Houze logo" class="footer-logo">
+      <img src="assets/images/logo-mark.png" alt="Health Houze logo" class="footer-logo" width="38" height="38" loading="lazy" decoding="async">
       <p class="footer-tag">Democratizing Fitness</p>
     </div>
-    <nav class="footer-links">
+    <nav class="footer-links" aria-label="Footer">
       <a href="#approach">Approach</a>
       <a href="#services">Services</a>
       <a href="#conditions">Who We Help</a>
@@ -330,14 +374,117 @@
     </nav>
     <a href="https://wa.me/917276188690?text=Hi%20Health%20Houze%21%20I%27d%20like%20to%20know%20more%20about%20your%20diet%20plans." target="_blank" rel="noopener" class="btn btn-ghost btn-small"><svg class="btn-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3C6.99 3 2.9 6.8 2.9 11.5c0 2.42 1.08 4.6 2.83 6.14-.1 1.35-.5 2.62-1.18 3.73a.4.4 0 00.46.58c1.7-.42 3.24-1.2 4.5-2.24 1.13.36 2.34.55 3.59.55 5.01 0 9.1-3.8 9.1-8.5S17.11 3 12.1 3H12z"/></svg>Message Us</a>
   </div>
-  <p class="footer-copy">&copy; <span id="year"></span> Health Houze. All plans are personalised — results vary by individual.</p>
+  <p class="footer-copy">&copy; <span id="year">2026</span> Health Houze. All plans are personalised — results vary by individual.</p>
 </footer>
 
 <a href="https://wa.me/917276188690?text=Hi%20Health%20Houze%21%20I%27d%20like%20to%20know%20more%20about%20your%20diet%20plans." target="_blank" rel="noopener" class="wa-float" aria-label="Chat with Health Houze on WhatsApp">
-  <span class="wa-float-ring"></span>
+  <span class="wa-float-ring" aria-hidden="true"></span>
   <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3C6.99 3 2.9 6.8 2.9 11.5c0 2.42 1.08 4.6 2.83 6.14-.1 1.35-.5 2.62-1.18 3.73a.4.4 0 00.46.58c1.7-.42 3.24-1.2 4.5-2.24 1.13.36 2.34.55 3.59.55 5.01 0 9.1-3.8 9.1-8.5S17.11 3 12.1 3H12z"/></svg>
 </a>
 
-<script src="script.js"></script>
+<!-- Structured data: mirrors the visible page content so search engines can
+     show the business details and FAQ answers directly in results. -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": ["HealthAndBeautyBusiness", "ProfessionalService"],
+      "@id": "https://healthhouze.com/#business",
+      "name": "Health Houze",
+      "slogan": "Democratizing Fitness",
+      "description": "1:1 dietician consultations, customised diet plans, workout videos and 24/7 WhatsApp support.",
+      "url": "https://healthhouze.com/",
+      "logo": "https://healthhouze.com/assets/images/logo.jpg",
+      "image": "https://healthhouze.com/assets/images/dietician.jpg",
+      "telephone": "+917276188690",
+      "priceRange": "₹7,500–₹13,000",
+      "areaServed": { "@type": "Country", "name": "India" },
+      "address": { "@type": "PostalAddress", "addressCountry": "IN" },
+      "makesOffer": [
+        {
+          "@type": "Offer",
+          "name": "3 Months",
+          "description": "Ideal for first-time structured dieting.",
+          "price": "7500",
+          "priceCurrency": "INR",
+          "availability": "https://schema.org/InStock"
+        },
+        {
+          "@type": "Offer",
+          "name": "6 Months",
+          "description": "For lasting, lifestyle-level change.",
+          "price": "13000",
+          "priceCurrency": "INR",
+          "availability": "https://schema.org/InStock"
+        }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://healthhouze.com/#faqs",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "How much weight will I be able to lose?",
+          "acceptedAnswer": { "@type": "Answer", "text": "How much weight a person loses totally depends on their metabolic rate, body type, medical condition and how well they follow the plan. Typically a person loses 2–6 kg per month, but results differ from person to person." }
+        },
+        {
+          "@type": "Question",
+          "name": "Do you give any medicines, powders or supplements for weight loss?",
+          "acceptedAnswer": { "@type": "Answer", "text": "We believe in natural weight loss, so we do not give any powders, medicines or supplements. We provide healthy diet plans for weight loss." }
+        },
+        {
+          "@type": "Question",
+          "name": "Do you give any kind of guarantee for weight loss?",
+          "acceptedAnswer": { "@type": "Answer", "text": "No. Since our bodies are dynamic in nature, results differ from person to person." }
+        },
+        {
+          "@type": "Question",
+          "name": "I have PCOD, thyroid issues, diabetes and other medical conditions. Will that be cured with this diet?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Your medical condition requires proper medical assistance, alongside a proper diet which plays a supplementary role. Your condition cannot be completely cured, but it can be managed by diet and will also help prevent further disease by keeping you healthy." }
+        },
+        {
+          "@type": "Question",
+          "name": "What if I don't lose any weight?",
+          "acceptedAnswer": { "@type": "Answer", "text": "We try our best to give every client the best results, and this is a very rare situation. We have a good success rate. Please note that we do not have a refund policy." }
+        },
+        {
+          "@type": "Question",
+          "name": "How are you different from other nutritionists?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Most nutritionists hand you a \"diet chart\" and tell you to come back a week later. We cover nutrition, exercise and habit formation together — an approach built for long-term results, not just a chart." }
+        },
+        {
+          "@type": "Question",
+          "name": "Is food mentioned in the diet plan easily available in small towns?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes. We design your plan according to your location, keeping in mind the food items that are within your reach." }
+        },
+        {
+          "@type": "Question",
+          "name": "Will I have to quit white rice and roti?",
+          "acceptedAnswer": { "@type": "Answer", "text": "No. We design diet plans in a realistic way and make sure to include your local staple food. You do not need to give up your favourite food." }
+        },
+        {
+          "@type": "Question",
+          "name": "Do you have a separate plan for South Indians according to their food habits?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes! We design a personalised diet plan for every client from every corner of India — Southern, Northern or Central." }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I have to go to the gym?",
+          "acceptedAnswer": { "@type": "Answer", "text": "No. We generally suggest exercises like brisk walking, yoga and HIIT (both cardio and strength). These can be performed at home and don't need any equipment." }
+        },
+        {
+          "@type": "Question",
+          "name": "How often is the diet plan changed?",
+          "acceptedAnswer": { "@type": "Answer", "text": "We keep updating the diet plan from time to time according to your progress — sometimes in one week, sometimes in three. You do not have to follow the same plan for 3 or 6 months straight." }
+        }
+      ]
+    }
+  ]
+}
+</script>
+
+<script src="script.js" defer></script>
 </body>
 </html>
