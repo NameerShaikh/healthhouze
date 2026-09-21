@@ -804,6 +804,190 @@ button { font-family: inherit; color: inherit; }
 }
 .pricing-footnote { text-align: center; font-size: 0.82rem; color: var(--text-soft); max-width: 640px; margin: 40px auto 0; line-height: 1.65; }
 
+/* ============ REQUEST A CALL ============ */
+.callback {
+  position: relative;
+  padding: 92px 0;
+  background: var(--deep);
+  color: var(--on-deep);
+  overflow: hidden;
+}
+.callback::before {
+  content: "";
+  position: absolute;
+  inset: -40% -20% auto -20%;
+  height: 160%;
+  background: radial-gradient(42% 46% at 78% 6%, rgba(62, 143, 196, 0.24) 0%, transparent 70%);
+  pointer-events: none;
+}
+.callback-inner {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 0.92fr;
+  gap: 56px;
+  align-items: center;
+}
+.callback .eyebrow { color: var(--blush); }
+.callback .section-title { color: var(--white); text-align: left; max-width: none; margin-bottom: 16px; }
+.callback-lead { color: var(--on-deep); font-size: 1.02rem; margin: 0 0 26px; max-width: 480px; text-wrap: pretty; }
+.callback-points { display: flex; flex-direction: column; gap: 12px; }
+.callback-points li {
+  display: flex;
+  align-items: flex-start;
+  gap: 11px;
+  font-size: 0.93rem;
+  color: var(--on-deep-soft);
+}
+.callback-points svg {
+  width: 19px;
+  height: 19px;
+  flex-shrink: 0;
+  margin-top: 1px;
+  fill: none;
+  stroke: var(--blush);
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Form fields are themed through these four tokens so the identical
+   markup works on the dark green band and inside the light modal. */
+.callback-form { --cb-bg: rgba(255,255,255,0.1); --cb-border: rgba(255,255,255,0.3); --cb-text: var(--white); --cb-label: rgba(255,255,255,0.82); }
+.modal-panel .callback-form { --cb-bg: var(--bg); --cb-border: var(--line-strong); --cb-text: var(--text); --cb-label: var(--text-soft); }
+
+.callback > .section-inner > .callback-form,
+.callback-inner > .callback-form {
+  background: rgba(0, 0, 0, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: var(--radius-lg);
+  padding: 30px 28px 26px;
+}
+.cb-field { display: flex; flex-direction: column; gap: 7px; margin-bottom: 15px; }
+.cb-field label {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--cb-label);
+}
+.cb-field input,
+.cb-field select {
+  width: 100%;
+  font-family: var(--font-body);
+  font-size: 0.97rem;
+  color: var(--cb-text);
+  background: var(--cb-bg);
+  border: 1.5px solid var(--cb-border);
+  border-radius: var(--radius-sm);
+  padding: 12px 14px;
+  transition: border-color 0.18s ease, background 0.18s ease;
+}
+.cb-field select { appearance: none; -webkit-appearance: none; padding-right: 38px; cursor: pointer; }
+.cb-field input::placeholder { color: var(--cb-text); opacity: 0.5; }
+.cb-field input:hover,
+.cb-field select:hover { border-color: var(--cb-text); }
+.cb-field input:focus-visible,
+.cb-field select:focus-visible { outline: 2.5px solid var(--blush); outline-offset: 2px; border-color: transparent; }
+.cb-field input[aria-invalid="true"] { border-color: #F5879F; }
+
+.cb-select { position: relative; display: block; }
+.cb-select::after {
+  content: "";
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  width: 8px;
+  height: 8px;
+  margin-top: -6px;
+  border-right: 2px solid var(--cb-text);
+  border-bottom: 2px solid var(--cb-text);
+  transform: rotate(45deg);
+  opacity: 0.6;
+  pointer-events: none;
+}
+/* the native menu is drawn by the OS, so its options need a real colour pair */
+.cb-field select option { background: var(--surface); color: var(--text); }
+
+.cb-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.cb-error { margin: 0; font-size: 0.8rem; color: #FFC2CF; }
+.modal-panel .cb-error { color: #C2334F; }
+
+.cb-submit { margin-top: 20px; background: var(--white); color: var(--green-deep); border-color: var(--white); }
+.cb-submit:hover { background: rgba(255, 255, 255, 0.9); border-color: rgba(255, 255, 255, 0.9); transform: translateY(-2px); }
+.cb-submit .btn-icon { fill: var(--whatsapp); }
+.modal-panel .cb-submit { background: linear-gradient(120deg, var(--green) 0%, var(--blue) 100%); color: var(--white); border-color: transparent; }
+.modal-panel .cb-submit:hover { background: linear-gradient(120deg, var(--green) 0%, var(--blue) 100%); }
+.modal-panel .cb-submit .btn-icon { fill: currentColor; }
+
+.cb-note { margin: 14px 0 0; font-size: 0.76rem; line-height: 1.55; color: var(--cb-label); text-align: center; }
+.cb-done {
+  margin: 14px 0 0;
+  font-size: 0.86rem;
+  font-weight: 600;
+  text-align: center;
+  color: var(--white);
+  background: rgba(37, 211, 102, 0.22);
+  border: 1px solid rgba(37, 211, 102, 0.5);
+  border-radius: var(--radius-sm);
+  padding: 11px 14px;
+}
+.modal-panel .cb-done { color: var(--heading); background: var(--accent-wash); border-color: var(--accent); }
+
+/* ============ MODAL ============ */
+.modal { position: fixed; inset: 0; z-index: 90; display: flex; align-items: center; justify-content: center; padding: 20px; }
+.modal[hidden] { display: none; }
+.modal-backdrop { position: absolute; inset: 0; background: rgba(9, 18, 13, 0.62); -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px); animation: modal-fade 0.25s ease; }
+.modal-panel {
+  position: relative;
+  width: min(520px, 100%);
+  max-height: calc(100vh - 40px);
+  overflow-y: auto;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  padding: 34px 32px 26px;
+  box-shadow: 0 40px 80px -30px rgba(0, 0, 0, 0.55);
+  animation: modal-rise 0.3s cubic-bezier(0.2, 0.8, 0.3, 1);
+}
+.modal-panel h2 { font-family: var(--font-display); font-size: 1.62rem; line-height: 1.2; color: var(--heading); margin: 0 0 10px; font-weight: 600; text-wrap: balance; }
+.modal-lead { color: var(--text-soft); font-size: 0.97rem; margin: 0 0 24px; text-wrap: pretty; }
+.modal-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  background: var(--surface-alt);
+  color: var(--text-soft);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.18s ease, color 0.18s ease;
+}
+.modal-close:hover { background: var(--line); color: var(--text); }
+.modal-close svg { width: 17px; height: 17px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; }
+.modal-dismiss {
+  display: block;
+  width: 100%;
+  margin-top: 14px;
+  padding: 10px;
+  background: none;
+  border: none;
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  color: var(--text-soft);
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.modal-dismiss:hover { color: var(--text); }
+@keyframes modal-fade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes modal-rise { from { opacity: 0; transform: translateY(18px) scale(0.98); } to { opacity: 1; transform: none; } }
+body.modal-open { overflow: hidden; }
+
 /* ============ FAQS ============ */
 .faqs { padding: 96px 0; background: var(--surface-alt); }
 .faq-list { max-width: 780px; margin: 44px auto 0; display: flex; flex-direction: column; gap: 10px; }
@@ -949,6 +1133,8 @@ button { font-family: inherit; color: inherit; }
 }
 
 @media (max-width: 900px) {
+  .callback-inner { grid-template-columns: 1fr; gap: 34px; }
+  .callback .section-title { font-size: clamp(1.6rem, 5vw, 2.1rem); }
   .stories-grid { grid-template-columns: 1fr; max-width: 520px; margin: 0 auto; gap: 22px; }
   .contact-grid { grid-template-columns: 1fr; max-width: 460px; }
   .hero { padding: 48px 0 76px; }
@@ -1015,7 +1201,12 @@ button { font-family: inherit; color: inherit; }
   .wa-float svg { width: 25px; height: 25px; }
   .theme-toggle { width: 38px; height: 38px; }
 
-  .approach, .services, .conditions, .plates, .stories, .pricing, .faqs, .contact { padding: 68px 0; }
+  .approach, .services, .conditions, .plates, .stories, .pricing, .faqs, .contact, .callback { padding: 68px 0; }
+  .callback-inner > .callback-form { padding: 24px 20px 22px; }
+  .cb-row { grid-template-columns: 1fr; gap: 0; }
+  .modal { padding: 12px; align-items: flex-end; }
+  .modal-panel { padding: 28px 22px 20px; max-height: calc(100dvh - 24px); }
+  .modal-panel h2 { font-size: 1.4rem; }
   .final-cta { padding: 68px 0 84px; }
   .story { padding: 10px; }
   .story-pair { gap: 8px; }

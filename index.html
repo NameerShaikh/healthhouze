@@ -343,6 +343,71 @@
   </div>
 </section>
 
+<!-- ========== REQUEST A CALL ==========
+     Sits directly after pricing on purpose: the visitor who just saw the
+     price and hesitated is exactly the one who will take a conversation
+     instead of leaving. -->
+<section class="callback" id="callback" aria-labelledby="callback-title">
+  <div class="section-inner callback-inner">
+    <div class="callback-copy">
+      <p class="eyebrow">Request A Call</p>
+      <h2 class="section-title" id="callback-title">Still deciding? Talk to a dietician first.</h2>
+      <p class="callback-lead">Share a few details and we'll pick up the conversation on WhatsApp. Ask anything — your routine, your medical reports, whether this would even work for you — before you commit to a plan.</p>
+      <ul class="callback-points">
+        <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.2 4.2L19 7"/></svg>You speak to an actual dietician, not a salesperson</li>
+        <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.2 4.2L19 7"/></svg>No obligation to buy anything</li>
+        <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.2 4.2L19 7"/></svg>Takes about 30 seconds to ask</li>
+      </ul>
+    </div>
+
+    <form class="callback-form" data-callback-form novalidate>
+      <div class="cb-field">
+        <label for="cb-name">Your name</label>
+        <input type="text" id="cb-name" name="name" autocomplete="name" placeholder="e.g. Priya Sharma" required>
+        <p class="cb-error" id="cb-name-error" hidden></p>
+      </div>
+
+      <div class="cb-field">
+        <label for="cb-phone">WhatsApp number</label>
+        <input type="tel" id="cb-phone" name="phone" inputmode="numeric" autocomplete="tel" placeholder="10-digit mobile number" required>
+        <p class="cb-error" id="cb-phone-error" hidden></p>
+      </div>
+
+      <div class="cb-field">
+        <label for="cb-goal">What would you like help with?</label>
+        <span class="cb-select">
+          <select id="cb-goal" name="goal">
+            <option>Weight loss</option>
+            <option>PCOS / PCOD</option>
+            <option>Thyroid</option>
+            <option>Diabetes or cholesterol</option>
+            <option>Something else</option>
+          </select>
+        </span>
+      </div>
+
+      <div class="cb-field">
+        <label for="cb-time">Best time to call</label>
+        <span class="cb-select">
+          <select id="cb-time" name="time">
+            <option>Morning (9am – 12pm)</option>
+            <option>Afternoon (12pm – 4pm)</option>
+            <option>Evening (4pm – 8pm)</option>
+          </select>
+        </span>
+      </div>
+
+      <button type="submit" class="btn btn-full cb-submit">
+        <svg class="btn-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3C6.99 3 2.9 6.8 2.9 11.5c0 2.42 1.08 4.6 2.83 6.14-.1 1.35-.5 2.62-1.18 3.73a.4.4 0 00.46.58c1.7-.42 3.24-1.2 4.5-2.24 1.13.36 2.34.55 3.59.55 5.01 0 9.1-3.8 9.1-8.5S17.11 3 12.1 3H12z"/></svg>
+        Send my request on WhatsApp
+      </button>
+
+      <p class="cb-note">This opens WhatsApp with your details already filled in — you just press send. Nothing is stored on this website.</p>
+      <p class="cb-done" role="status" hidden>WhatsApp should be opening — press send there and we'll take it from here.</p>
+    </form>
+  </div>
+</section>
+
 <!-- ========== TESTIMONIALS SECTION — TO BE ADDED LATER (before/after photos, success stories) ========== -->
 
 <!-- ========== FAQS ========== -->
@@ -483,6 +548,71 @@
   </div>
   <p class="footer-copy">&copy; <span id="year">2026</span> Health Houze. All plans are personalised — results vary by individual.</p>
 </footer>
+
+<!-- ========== REQUEST-A-CALL PROMPT ==========
+     Shown at most once per visitor, and never again after they use or
+     dismiss it. Suppressed while the inline form is already on screen. -->
+<div class="modal" id="callModal" hidden>
+  <div class="modal-backdrop" data-close-modal></div>
+  <div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="callModalTitle" aria-describedby="callModalDesc" tabindex="-1">
+    <button type="button" class="modal-close" data-close-modal aria-label="Close">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+
+    <p class="eyebrow">Free To Ask</p>
+    <h2 id="callModalTitle">Want to talk it through first?</h2>
+    <p id="callModalDesc" class="modal-lead">Leave your details and a dietician will pick this up on WhatsApp — no obligation, no pressure.</p>
+
+    <form class="callback-form" data-callback-form novalidate>
+      <div class="cb-field">
+        <label for="cbm-name">Your name</label>
+        <input type="text" id="cbm-name" name="name" autocomplete="name" placeholder="e.g. Priya Sharma" required>
+        <p class="cb-error" id="cbm-name-error" hidden></p>
+      </div>
+
+      <div class="cb-field">
+        <label for="cbm-phone">WhatsApp number</label>
+        <input type="tel" id="cbm-phone" name="phone" inputmode="numeric" autocomplete="tel" placeholder="10-digit mobile number" required>
+        <p class="cb-error" id="cbm-phone-error" hidden></p>
+      </div>
+
+      <div class="cb-row">
+        <div class="cb-field">
+          <label for="cbm-goal">Help with</label>
+          <span class="cb-select">
+            <select id="cbm-goal" name="goal">
+              <option>Weight loss</option>
+              <option>PCOS / PCOD</option>
+              <option>Thyroid</option>
+              <option>Diabetes or cholesterol</option>
+              <option>Something else</option>
+            </select>
+          </span>
+        </div>
+        <div class="cb-field">
+          <label for="cbm-time">Best time</label>
+          <span class="cb-select">
+            <select id="cbm-time" name="time">
+              <option>Morning (9am – 12pm)</option>
+              <option>Afternoon (12pm – 4pm)</option>
+              <option>Evening (4pm – 8pm)</option>
+            </select>
+          </span>
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-primary btn-full cb-submit">
+        <svg class="btn-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3C6.99 3 2.9 6.8 2.9 11.5c0 2.42 1.08 4.6 2.83 6.14-.1 1.35-.5 2.62-1.18 3.73a.4.4 0 00.46.58c1.7-.42 3.24-1.2 4.5-2.24 1.13.36 2.34.55 3.59.55 5.01 0 9.1-3.8 9.1-8.5S17.11 3 12.1 3H12z"/></svg>
+        Send my request on WhatsApp
+      </button>
+
+      <p class="cb-note">Opens WhatsApp with your details filled in — you press send. Nothing is stored on this website.</p>
+      <p class="cb-done" role="status" hidden>WhatsApp should be opening — press send there and we'll take it from here.</p>
+    </form>
+
+    <button type="button" class="modal-dismiss" data-close-modal>Not right now</button>
+  </div>
+</div>
 
 <a href="https://wa.me/917276188690?text=Hi%20Health%20Houze%21%20I%27d%20like%20to%20know%20more%20about%20your%20diet%20plans." target="_blank" rel="noopener" class="wa-float" aria-label="Chat with Health Houze on WhatsApp">
   <span class="wa-float-ring" aria-hidden="true"></span>

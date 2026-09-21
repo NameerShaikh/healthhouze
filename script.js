@@ -151,6 +151,195 @@
     });
   });
 
+  /* ---------- Request a call ----------
+     There is no backend, so the form cannot post anywhere. It composes a
+     WhatsApp message from the answers and hands it to WhatsApp with
+     everything pre-filled; the visitor presses send. Nothing is stored. */
+  var WA_NUMBER = '917276188690';
+  var SEEN_KEY = 'hh-callback-seen';
+
+  function remember() {
+    try { localStorage.setItem(SEEN_KEY, '1'); } catch (e) { /* private mode */ }
+  }
+  function alreadySeen() {
+    try { return localStorage.getItem(SEEN_KEY) === '1'; } catch (e) { return false; }
+  }
+
+  function showError(input, msg) {
+    var box = document.getElementById(input.id + '-error');
+    input.setAttribute('aria-invalid', 'true');
+    if (box) {
+      box.textContent = msg;
+      box.hidden = false;
+      input.setAttribute('aria-describedby', box.id);
+    }
+  }
+  function clearError(input) {
+    var box = document.getElementById(input.id + '-error');
+    input.removeAttribute('aria-invalid');
+    if (box) { box.hidden = true; box.textContent = ''; }
+  }
+
+  // Accepts an Indian mobile in any of the usual shapes, and any
+  // explicitly-dialled international number so overseas clients are not
+  // turned away. Returns a tidy display string, or null if it is not a
+  // plausible number.
+  function normalisePhone(raw) {
+    var s = String(raw).trim();
+    var hasPlus = s.charAt(0) === '+';
+    var d = s.replace(/\D/g, '');
+
+    if (d.length === 12 && d.indexOf('91') === 0 && /^[6-9]/.test(d.slice(2))) return '+91 ' + d.slice(2);
+    if (d.length === 11 && d.charAt(0) === '0' && /^[6-9]/.test(d.slice(1))) return '+91 ' + d.slice(1);
+    if (/^[6-9]\d{9}$/.test(d)) return '+91 ' + d;
+    if (hasPlus && d.length >= 8 && d.length <= 15) return '+' + d;
+    return null;
+  }
+
+  Array.prototype.forEach.call(document.querySelectorAll('[data-callback-form]'), function (form) {
+    var name = form.querySelector('input[name="name"]');
+    var phone = form.querySelector('input[name="phone"]');
+    var goal = form.querySelector('select[name="goal"]');
+    var time = form.querySelector('select[name="time"]');
+    var done = form.querySelector('.cb-done');
+
+    [name, phone].forEach(function (el) {
+      if (el) el.addEventListener('input', function () { clearError(el); });
+    });
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var ok = true;
+
+      if (!name.value.trim()) { showError(name, 'Please tell us your name.'); ok = false; }
+      else clearError(name);
+
+      var dialled = normalisePhone(phone.value);
+      if (!phone.value.trim()) { showError(phone, 'We need a number to call you on.'); ok = false; }
+      else if (!dialled) { showError(phone, "That doesn't look right. Enter a 10-digit mobile, or include the country code if you're outside India."); ok = false; }
+      else clearError(phone);
+
+      if (!ok) {
+        var bad = form.querySelector('[aria-invalid="true"]');
+        if (bad) bad.focus();
+        return;
+      }
+
+      var lines = [
+        "Hi Health Houze! I'd like to request a call from a dietician.",
+        '',
+        'Name: ' + name.value.trim(),
+        'WhatsApp: ' + dialled,
+        'Looking for help with: ' + goal.value,
+        'Best time to call: ' + time.value
+      ];
+      var url = 'https://wa.me/' + WA_NUMBER + '?text=' + encodeURIComponent(lines.join('\n'));
+
+      remember();
+      if (done) done.hidden = false;
+
+      // Opened from a real click, so this is not treated as a popup. Fall
+      // back to same-tab navigation if the browser blocks it anyway.
+      var win = window.open(url, '_blank', 'noopener');
+      if (!win) window.location.href = url;
+    });
+  });
+
+  /* ---------- The prompt ----------
+     Shown at most once per visitor, never again once used or dismissed,
+     and never while the inline form is already on screen. */
+  var modal = document.getElementById('callModal');
+
+  if (modal && !alreadySeen()) {
+    var panel = modal.querySelector('.modal-panel');
+    var lastFocus = null;
+    var armed = false;
+    var open = false;
+
+    var inlineForm = document.querySelector('.callback');
+    var inlineVisible = false;
+    if (inlineForm && 'IntersectionObserver' in window) {
+      new IntersectionObserver(function (entries) {
+        inlineVisible = entries[0].isIntersecting;
+      }, { threshold: 0.25 }).observe(inlineForm);
+    }
+
+    function focusables() {
+      return Array.prototype.filter.call(
+        panel.querySelectorAll('a[href],button:not([disabled]),input,select,textarea,[tabindex]:not([tabindex="-1"])'),
+        function (el) { return el.offsetParent !== null; }
+      );
+    }
+
+    // Returns whether it actually opened, so a caller can keep waiting
+    // rather than burning its trigger when the prompt was suppressed.
+    function openModal() {
+      if (open || alreadySeen()) return false;
+      // Never interrupt someone who is already looking at the inline form,
+      // or who has the mobile menu open.
+      if (inlineVisible) return false;
+      if (navLinks && navLinks.classList.contains('open')) return false;
+
+      open = true;
+      lastFocus = document.activeElement;
+      modal.hidden = false;
+      document.body.classList.add('modal-open');
+      // Focus the panel rather than the first input, so a phone keyboard
+      // does not spring up and cover the dialog.
+      panel.focus();
+      return true;
+    }
+
+    function closeModal() {
+      if (!open) return;
+      open = false;
+      modal.hidden = true;
+      document.body.classList.remove('modal-open');
+      remember();
+      if (lastFocus && lastFocus.focus) lastFocus.focus();
+    }
+
+    Array.prototype.forEach.call(modal.querySelectorAll('[data-close-modal]'), function (el) {
+      el.addEventListener('click', closeModal);
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (!open) return;
+      if (e.key === 'Escape') { closeModal(); return; }
+      if (e.key !== 'Tab') return;
+      var f = focusables();
+      if (!f.length) return;
+      var first = f[0], last = f[f.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    });
+
+    // Arm only after the visitor has had time to read something.
+    window.setTimeout(function () { armed = true; }, 15000);
+
+    // Trigger 1 — read more than half the page.
+    var onDepth = function () {
+      if (!armed || open) return;
+      var max = document.documentElement.scrollHeight - window.innerHeight;
+      if (max > 0 && (window.scrollY / max) > 0.55) {
+        // Only retire this trigger once it has actually produced the prompt.
+        if (openModal()) window.removeEventListener('scroll', onDepth);
+      }
+    };
+    window.addEventListener('scroll', onDepth, { passive: true });
+
+    // Trigger 2 — desktop exit intent (pointer leaves towards the tab bar).
+    if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+      document.addEventListener('mouseout', function (e) {
+        if (!armed || open || e.relatedTarget || e.clientY > 8) return;
+        openModal();
+      });
+    }
+
+    // Trigger 3 — long dwell, as a backstop on touch devices.
+    window.setTimeout(function () { openModal(); }, 55000);
+  }
+
   /* ---------- Active section in the nav ---------- */
   var sectionLinks = navLinks ? navLinks.querySelectorAll('a[href^="#"]') : [];
   var watched = [];
