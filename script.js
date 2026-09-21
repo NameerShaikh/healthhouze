@@ -55,8 +55,21 @@
 
   /* ---------- Scroll reveal ---------- */
   var revealEls = document.querySelectorAll('.reveal');
+
+  // Play the entrance, then retire the animation. While it is running the
+  // animation owns the element's `transform`, which would otherwise swallow
+  // the card's own hover lift for good. The timer is a backstop for when
+  // animationend never arrives (reduced motion, background tab).
+  function reveal(el) {
+    if (el.classList.contains('in-view')) return;
+    el.classList.add('in-view');
+    var settle = function () { el.classList.add('anim-done'); };
+    el.addEventListener('animationend', settle, { once: true });
+    window.setTimeout(settle, 1400);
+  }
+
   var showAll = function () {
-    for (var i = 0; i < revealEls.length; i++) revealEls[i].classList.add('in-view');
+    for (var i = 0; i < revealEls.length; i++) reveal(revealEls[i]);
   };
 
   if (reduceMotion || !('IntersectionObserver' in window)) {
@@ -64,10 +77,9 @@
   } else {
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('in-view');
-          io.unobserve(entry.target);
-        }
+        if (!entry.isIntersecting) return;
+        io.unobserve(entry.target);
+        reveal(entry.target);
       });
     }, { threshold: 0.01, rootMargin: '0px 0px -10% 0px' });
 
@@ -278,11 +290,15 @@
     var lockedY = 0;
 
     var inlineForm = document.querySelector('.callback');
-    var inlineVisible = false;
-    if (inlineForm && 'IntersectionObserver' in window) {
-      new IntersectionObserver(function (entries) {
-        inlineVisible = entries[0].isIntersecting;
-      }, { threshold: 0.25 }).observe(inlineForm);
+
+    // Measured on demand rather than tracked by an IntersectionObserver:
+    // one less moving part, and it is always right at the moment we ask.
+    function inlineFormOnScreen() {
+      if (!inlineForm) return false;
+      var r = inlineForm.getBoundingClientRect();
+      var vh = window.innerHeight || document.documentElement.clientHeight;
+      var shown = Math.min(r.bottom, vh) - Math.max(r.top, 0);
+      return shown > Math.min(r.height, vh) * 0.25;
     }
 
     function focusables() {
@@ -298,7 +314,7 @@
       if (open || alreadySeen()) return false;
       // Never interrupt someone who is already looking at the inline form,
       // or who has the mobile menu open.
-      if (inlineVisible) return false;
+      if (inlineFormOnScreen()) return false;
       if (navLinks && navLinks.classList.contains('open')) return false;
 
       open = true;
@@ -378,47 +394,65 @@
     if (section) watched.push({ link: link, section: section });
   });
 
-  if (watched.length) {
-    var setActive = function (activeLink) {
-      watched.forEach(function (entry) {
-        var on = entry.link === activeLink;
-        entry.link.classList.toggle('is-active', on);
-        if (on) entry.link.setAttribute('aria-current', 'true');
-        else entry.link.removeAttribute('aria-current');
-      });
-    };
+  /* ---------- Scroll-linked motion ----------
+     One rAF-throttled handler drives the header state, the reading-progress
+     bar, the hero parallax and the active nav link. Everything it writes is
+     a transform or a class, so it stays off the layout path and does not
+     make scrolling feel heavy on a mid-range phone. */
+  var progress = document.getElementById('scrollProgress');
+  var heroPhoto = document.querySelector('.hero-photo');
+  var hero = document.querySelector('.hero');
 
-    var ticking = false;
-    var update = function () {
-      ticking = false;
+  var setActive = function (activeLink) {
+    watched.forEach(function (entry) {
+      var on = entry.link === activeLink;
+      entry.link.classList.toggle('is-active', on);
+      if (on) entry.link.setAttribute('aria-current', 'true');
+      else entry.link.removeAttribute('aria-current');
+    });
+  };
 
-      if (nav) nav.classList.toggle('is-scrolled', window.scrollY > 8);
+  var ticking = false;
+  var update = function () {
+    ticking = false;
+    var y = window.scrollY || window.pageYOffset || 0;
 
+    if (nav) nav.classList.toggle('is-scrolled', y > 8);
+
+    if (progress) {
+      var span = document.documentElement.scrollHeight - window.innerHeight;
+      var pct = span > 0 ? Math.min(1, Math.max(0, y / span)) : 0;
+      progress.style.transform = 'scaleX(' + pct.toFixed(4) + ')';
+    }
+
+    // The hero image drifts a little slower than the page, which reads as
+    // depth. Capped so it never separates from its frame further down.
+    if (heroPhoto && !reduceMotion) {
+      var limit = hero ? hero.offsetHeight : 700;
+      heroPhoto.style.transform = 'translate3d(0,' + (Math.min(y, limit) * 0.07).toFixed(2) + 'px,0)';
+    }
+
+    if (watched.length) {
       var line = (nav ? nav.offsetHeight : 0) + 24;
       var current = null;
       watched.forEach(function (entry) {
         if (entry.section.getBoundingClientRect().top <= line) current = entry.link;
       });
-
       // Always light up the last link once the page is scrolled to the end.
-      var atBottom = window.innerHeight + window.scrollY >= document.body.offsetHeight - 2;
-      if (atBottom) current = watched[watched.length - 1].link;
-
+      if (window.innerHeight + y >= document.body.offsetHeight - 2) {
+        current = watched[watched.length - 1].link;
+      }
       setActive(current);
-    };
+    }
+  };
 
-    var onScroll = function () {
-      if (ticking) return;
-      ticking = true;
-      window.requestAnimationFrame(update);
-    };
+  var onScroll = function () {
+    if (ticking) return;
+    ticking = true;
+    window.requestAnimationFrame(update);
+  };
 
-    window.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('resize', onScroll, { passive: true });
-    update();
-  } else if (nav) {
-    window.addEventListener('scroll', function () {
-      nav.classList.toggle('is-scrolled', window.scrollY > 8);
-    }, { passive: true });
-  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll, { passive: true });
+  update();
 })();

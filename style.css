@@ -621,8 +621,6 @@ button { font-family: inherit; color: inherit; }
 .plate:nth-child(3n+3) { --rot: -0.6deg; }
 .plate:hover { transform: translateY(-6px) scale(1.03) rotate(0deg); box-shadow: 0 0 0 1.5px var(--accent), var(--shadow-soft); }
 .plate img { width: 100%; height: 100%; object-fit: cover; }
-.plate.reveal:not(.in-view) { transform: translateY(18px) rotate(0deg); }
-.plate.reveal.in-view { transform: rotate(var(--rot)); }
 
 /* ============ SUCCESS STORIES (before / after) ============ */
 .stories { padding: 96px 0; background: var(--surface-alt); }
@@ -1252,21 +1250,66 @@ body.modal-open {
 }
 
 /* ============ SCROLL REVEAL ============ */
-.reveal {
-  opacity: 0;
-  transform: translateY(18px);
-  transition: opacity 0.6s ease, transform 0.6s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+/* Reveal runs as an animation, not a transition. A transition here would
+   also own each card's `transform`, so hovering a card inherited the slow
+   reveal timing and felt sluggish. With an animation, `transition` stays
+   free for hover. `anim-done` retires the animation afterwards so it stops
+   overriding hover transforms. */
+.reveal { opacity: 0; }
+.reveal.in-view {
+  animation: reveal-rise 0.85s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
-.reveal.in-view { opacity: 1; transform: translateY(0); }
+.reveal.anim-done { animation: none; opacity: 1; }
 
-.services-grid .reveal:nth-child(2) { transition-delay: 0.06s; }
-.services-grid .reveal:nth-child(3) { transition-delay: 0.12s; }
-.services-grid .reveal:nth-child(4) { transition-delay: 0.18s; }
-.services-grid .reveal:nth-child(5) { transition-delay: 0.24s; }
-.trust-grid .reveal:nth-child(2) { transition-delay: 0.08s; }
-.trust-grid .reveal:nth-child(3) { transition-delay: 0.16s; }
-.plates-grid .reveal:nth-child(3n+2) { transition-delay: 0.06s; }
-.plates-grid .reveal:nth-child(3n+3) { transition-delay: 0.12s; }
+@keyframes reveal-rise {
+  from { opacity: 0; transform: translate3d(0, 28px, 0) scale(0.985); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* Plates settle back into their scattered tilt rather than to zero. */
+.plate.reveal.in-view { animation-name: plate-rise; }
+@keyframes plate-rise {
+  from { opacity: 0; transform: translate3d(0, 28px, 0) rotate(0deg) scale(0.96); }
+  to   { opacity: 1; transform: rotate(var(--rot)); }
+}
+
+/* Staggered so groups arrive as a wave instead of all at once. */
+.services-grid .reveal:nth-child(2) { animation-delay: 0.08s; }
+.services-grid .reveal:nth-child(3) { animation-delay: 0.16s; }
+.services-grid .reveal:nth-child(4) { animation-delay: 0.24s; }
+.services-grid .reveal:nth-child(5) { animation-delay: 0.32s; }
+.trust-grid .reveal:nth-child(2) { animation-delay: 0.1s; }
+.trust-grid .reveal:nth-child(3) { animation-delay: 0.2s; }
+.plates-grid .reveal:nth-child(3n+2) { animation-delay: 0.08s; }
+.plates-grid .reveal:nth-child(3n+3) { animation-delay: 0.16s; }
+.stories-grid .reveal:nth-child(2) { animation-delay: 0.1s; }
+.stories-grid .reveal:nth-child(3) { animation-delay: 0.2s; }
+.stories-grid .reveal:nth-child(4) { animation-delay: 0.3s; }
+.contact-grid .reveal:nth-child(2) { animation-delay: 0.1s; }
+.approach-grid .reveal:nth-child(2) { animation-delay: 0.1s; }
+.pricing-grid .reveal:nth-child(2) { animation-delay: 0.1s; }
+
+/* ============ SCROLL PROGRESS ============ */
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  z-index: 55;
+  pointer-events: none;
+  background: transparent;
+}
+.scroll-progress span {
+  display: block;
+  height: 100%;
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  background: linear-gradient(90deg, var(--green), var(--blue) 60%, var(--blush));
+  will-change: transform;
+}
+
+.hero-photo { will-change: transform; }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
@@ -1275,8 +1318,10 @@ body.modal-open {
     transition-duration: 0.001ms !important;
   }
   html { scroll-behavior: auto; }
-  .reveal { opacity: 1; transform: none; }
-  .plate.reveal:not(.in-view) { transform: rotate(var(--rot)); }
+  .reveal, .reveal.in-view { opacity: 1; animation: none; }
+  .plate.reveal.in-view { transform: rotate(var(--rot)); }
+  .hero-photo { transform: none !important; }
+  .scroll-progress { display: none; }
   .wa-float-ring { display: none; }
 }
 
