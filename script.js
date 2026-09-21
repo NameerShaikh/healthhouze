@@ -202,13 +202,21 @@
     var goal = form.querySelector('select[name="goal"]');
     var time = form.querySelector('select[name="time"]');
     var done = form.querySelector('.cb-done');
+    var fallback = form.querySelector('.cb-fallback');
 
     [name, phone].forEach(function (el) {
       if (el) el.addEventListener('input', function () { clearError(el); });
     });
 
+    var lastSent = 0;
+
     form.addEventListener('submit', function (e) {
       e.preventDefault();
+
+      // A double-tap on the button would otherwise open WhatsApp twice.
+      // Still allows a deliberate retry a moment later.
+      if (Date.now() - lastSent < 1500) return;
+
       var ok = true;
 
       if (!name.value.trim()) { showError(name, 'Please tell us your name.'); ok = false; }
@@ -235,13 +243,25 @@
       ];
       var url = 'https://wa.me/' + WA_NUMBER + '?text=' + encodeURIComponent(lines.join('\n'));
 
+      lastSent = Date.now();
       remember();
       if (done) done.hidden = false;
+      if (fallback) fallback.href = url;
 
-      // Opened from a real click, so this is not treated as a popup. Fall
-      // back to same-tab navigation if the browser blocks it anyway.
-      var win = window.open(url, '_blank', 'noopener');
-      if (!win) window.location.href = url;
+      // A synthesised link click, not window.open. window.open(..., 'noopener')
+      // returns null even when it succeeds, so there is no way to tell a
+      // blocked popup from a successful one — testing its result opened
+      // WhatsApp twice. An anchor click is also the form iOS Safari honours
+      // most reliably inside a user gesture. If it is blocked, the visitor
+      // still has the link in the confirmation message.
+      var a = document.createElement('a');
+      a.href = url;
+      a.target = '_blank';
+      a.rel = 'noopener noreferrer';
+      a.style.display = 'none';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
     });
   });
 
@@ -255,6 +275,7 @@
     var lastFocus = null;
     var armed = false;
     var open = false;
+    var lockedY = 0;
 
     var inlineForm = document.querySelector('.callback');
     var inlineVisible = false;
@@ -283,6 +304,10 @@
       open = true;
       lastFocus = document.activeElement;
       modal.hidden = false;
+      // Pin the body at its current offset. Plain `overflow: hidden` lets
+      // the page scroll behind the dialog on iOS.
+      lockedY = window.scrollY || window.pageYOffset || 0;
+      document.body.style.top = (-lockedY) + 'px';
       document.body.classList.add('modal-open');
       // Focus the panel rather than the first input, so a phone keyboard
       // does not spring up and cover the dialog.
@@ -295,8 +320,11 @@
       open = false;
       modal.hidden = true;
       document.body.classList.remove('modal-open');
+      document.body.style.top = '';
+      window.scrollTo(0, lockedY);
       remember();
-      if (lastFocus && lastFocus.focus) lastFocus.focus();
+      // Put focus back without yanking the page around again.
+      if (lastFocus && lastFocus.focus) lastFocus.focus({ preventScroll: true });
     }
 
     Array.prototype.forEach.call(modal.querySelectorAll('[data-close-modal]'), function (el) {

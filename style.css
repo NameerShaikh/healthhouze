@@ -258,8 +258,9 @@ button { font-family: inherit; color: inherit; }
 /* ============ WHATSAPP FLOATING BUTTON ============ */
 .wa-float {
   position: fixed;
-  right: 24px;
-  bottom: 24px;
+  /* keep clear of the iPhone home indicator and any rounded corner */
+  right: calc(24px + env(safe-area-inset-right, 0px));
+  bottom: calc(24px + env(safe-area-inset-bottom, 0px));
   z-index: 60;
   width: 58px;
   height: 58px;
@@ -874,7 +875,9 @@ button { font-family: inherit; color: inherit; }
 .cb-field select {
   width: 100%;
   font-family: var(--font-body);
-  font-size: 0.97rem;
+  /* Must stay at 16px: iOS Safari auto-zooms the whole page when a field
+     smaller than this takes focus, and never zooms back out. */
+  font-size: 16px;
   color: var(--cb-text);
   background: var(--cb-bg);
   border: 1.5px solid var(--cb-border);
@@ -932,6 +935,7 @@ button { font-family: inherit; color: inherit; }
   padding: 11px 14px;
 }
 .modal-panel .cb-done { color: var(--heading); background: var(--accent-wash); border-color: var(--accent); }
+.cb-fallback { display: inline-block; margin-top: 4px; text-decoration: underline; text-underline-offset: 3px; }
 
 /* ============ MODAL ============ */
 .modal { position: fixed; inset: 0; z-index: 90; display: flex; align-items: center; justify-content: center; padding: 20px; }
@@ -941,7 +945,12 @@ button { font-family: inherit; color: inherit; }
   position: relative;
   width: min(520px, 100%);
   max-height: calc(100vh - 40px);
+  /* dvh tracks the collapsing iOS/Android browser bars; ignored where
+     unsupported, so the vh line above stays as the fallback. */
+  max-height: calc(100dvh - 40px);
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
   background: var(--surface);
   border: 1px solid var(--line);
   border-radius: var(--radius-lg);
@@ -953,10 +962,10 @@ button { font-family: inherit; color: inherit; }
 .modal-lead { color: var(--text-soft); font-size: 0.97rem; margin: 0 0 24px; text-wrap: pretty; }
 .modal-close {
   position: absolute;
-  top: 14px;
-  right: 14px;
-  width: 36px;
-  height: 36px;
+  top: 12px;
+  right: 12px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   border: none;
   background: var(--surface-alt);
@@ -986,7 +995,14 @@ button { font-family: inherit; color: inherit; }
 .modal-dismiss:hover { color: var(--text); }
 @keyframes modal-fade { from { opacity: 0; } to { opacity: 1; } }
 @keyframes modal-rise { from { opacity: 0; transform: translateY(18px) scale(0.98); } to { opacity: 1; transform: none; } }
-body.modal-open { overflow: hidden; }
+/* `overflow: hidden` alone does not stop the page scrolling behind a modal
+   on iOS Safari — the body has to be taken out of flow. script.js stores
+   the scroll offset in `top` and restores it on close. */
+body.modal-open {
+  position: fixed;
+  width: 100%;
+  overflow: hidden;
+}
 
 /* ============ FAQS ============ */
 .faqs { padding: 96px 0; background: var(--surface-alt); }
@@ -1102,7 +1118,8 @@ body.modal-open { overflow: hidden; }
 .footer-links a {
   font-size: 0.87rem;
   color: rgba(255, 255, 255, 0.76);
-  padding: 6px 10px;
+  /* tall enough to be a comfortable touch target on a phone */
+  padding: 11px 12px;
   border-radius: 999px;
   transition: color 0.18s ease, background 0.18s ease;
 }
@@ -1197,14 +1214,23 @@ body.modal-open { overflow: hidden; }
   .footer-inner { flex-direction: column; align-items: flex-start; }
   .footer-links { gap: 4px; }
 
-  .wa-float { right: 16px; bottom: 16px; width: 52px; height: 52px; }
+  .wa-float {
+    right: calc(16px + env(safe-area-inset-right, 0px));
+    bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+    width: 52px;
+    height: 52px;
+  }
   .wa-float svg { width: 25px; height: 25px; }
   .theme-toggle { width: 38px; height: 38px; }
 
   .approach, .services, .conditions, .plates, .stories, .pricing, .faqs, .contact, .callback { padding: 68px 0; }
   .callback-inner > .callback-form { padding: 24px 20px 22px; }
   .cb-row { grid-template-columns: 1fr; gap: 0; }
-  .modal { padding: 12px; align-items: flex-end; }
+  .modal {
+    padding: 12px;
+    padding-bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+    align-items: flex-end;
+  }
   .modal-panel { padding: 28px 22px 20px; max-height: calc(100dvh - 24px); }
   .modal-panel h2 { font-size: 1.4rem; }
   .final-cta { padding: 68px 0 84px; }
