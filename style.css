@@ -639,7 +639,35 @@ button { font-family: inherit; color: inherit; }
   transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
 }
 .story:hover { transform: translateY(-4px); box-shadow: var(--shadow-soft); border-color: var(--line-strong); }
-.story-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.story-pair { position: relative; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+/* Replaces the old "Before"/"After" badges sitting on the photos: the
+   direction still reads at a glance, without text over someone's picture.
+   The wording stays in each image's alt text for screen readers. */
+.story-arrow {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--surface);
+  box-shadow: 0 0 0 1px var(--line), 0 4px 14px -4px rgba(0, 0, 0, 0.45);
+}
+.story-arrow svg {
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
 .story-shot {
   position: relative;
   border-radius: var(--radius-md);
@@ -654,23 +682,6 @@ button { font-family: inherit; color: inherit; }
   aspect-ratio: 3 / 4;
   object-fit: cover;
 }
-.story-tag {
-  position: absolute;
-  left: 9px;
-  bottom: 9px;
-  font-family: var(--font-mono);
-  font-size: 0.64rem;
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  padding: 5px 11px;
-  border-radius: 999px;
-  color: var(--white);
-  -webkit-backdrop-filter: blur(6px);
-  backdrop-filter: blur(6px);
-}
-.story-tag-before { background: rgba(22, 38, 31, 0.66); }
-.story-tag-after { background: linear-gradient(120deg, var(--green), var(--blue)); }
 .stories-note {
   text-align: center;
   font-size: 0.86rem;
@@ -1234,7 +1245,8 @@ body.modal-open {
   .final-cta { padding: 68px 0 84px; }
   .story { padding: 10px; }
   .story-pair { gap: 8px; }
-  .story-tag { font-size: 0.58rem; padding: 4px 9px; left: 7px; bottom: 7px; }
+  .story-arrow { width: 30px; height: 30px; }
+  .story-arrow svg { width: 14px; height: 14px; }
   .contact-card { padding: 22px 20px; gap: 14px; }
 }
 
